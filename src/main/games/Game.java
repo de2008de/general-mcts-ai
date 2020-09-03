@@ -7,6 +7,10 @@ public interface Game {
      */
     Player getWinner();
 
+    Player getLastTurnPlayer();
+
+    Player getNextTurnPlayer();
+
     /**
      * Return current game state.
      * @return the game state
@@ -19,4 +23,10 @@ public interface Game {
      * @return
      */
     Status getStatus();
+
+    int[] availableActions();
+
+    Game applyAction(int action);
+
+    void printState();
 }

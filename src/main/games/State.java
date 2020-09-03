@@ -1,5 +1,7 @@
 package main.games;
 
-public abstract class State {
-    public abstract Player getPositionAt(int index);
+public interface State {
+    Player getPositionAt(int index);
+    Player[] getStateCopy();
+    int getStateLength();
 }
