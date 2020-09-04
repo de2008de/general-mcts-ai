@@ -85,5 +85,11 @@ public class TicTacToeGameHandler implements GameHandler {
                 }
             }
         }
+
+        if (game.getStatus() == Status.END) {
+            System.out.println("Game finishes.");
+            Player winner = game.getWinner();
+            System.out.println("The winner is " + winner + ".");
+        }
     }
 }
