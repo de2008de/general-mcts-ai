@@ -4,7 +4,6 @@ import main.games.tictactoe.TicTacToe;
 import main.utils.Utils;
 
 import java.util.Scanner;
-import java.util.Set;
 
 public class TicTacToeGameHandler implements GameHandler {
     private static Scanner scanner = new Scanner(System.in);
@@ -54,10 +53,12 @@ public class TicTacToeGameHandler implements GameHandler {
 
                     try {
                         int action = Integer.valueOf(userInput);
-                        if (!isActionValid(action)) {
+                        Game newGame = game.applyAction(action);
+                        if (newGame == null) {
+                            System.out.println("Please enter a valid action number.");
                             continue;
                         }
-                        game = game.applyAction(action);
+                        game = newGame;
                         break;
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid action number.");
@@ -71,10 +72,12 @@ public class TicTacToeGameHandler implements GameHandler {
 
                     try {
                         int action = Integer.valueOf(userInput);
-                        if (!isActionValid(action)) {
+                        Game newGame = game.applyAction(action);
+                        if (newGame == null) {
+                            System.out.println("Please enter a valid action number.");
                             continue;
                         }
-                        game = game.applyAction(action);
+                        game = newGame;
                         break;
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid action number.");
@@ -82,10 +85,5 @@ public class TicTacToeGameHandler implements GameHandler {
                 }
             }
         }
-    }
-
-    private boolean isActionValid(int action) {
-        Set<Integer> availableActions = game.availableActions();
-        return availableActions.contains(action);
     }
 }

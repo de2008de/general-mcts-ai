@@ -73,11 +73,18 @@ public class TicTacToe implements Game {
         return actionsSet;
     }
 
+    /**
+     * Return null if the given action is invalid.
+     *
+     * @param action
+     * @return
+     */
     @Override
     public Game applyAction(int action) {
+        if (!isActionValid(action)) {
+            return null;
+        }
         Player[] copyState = state.getStateCopy();
-        // Todo: validate the action
-
         copyState[action] = getNextTurnPlayer();
         return new TicTacToe(new TicTacToeState(copyState), getNextTurnPlayer());
     }
@@ -145,5 +152,11 @@ public class TicTacToe implements Game {
                 }
             }
         }
+    }
+
+
+    private boolean isActionValid(int action) {
+        Set<Integer> availableActions = availableActions();
+        return availableActions.contains(action);
     }
 }
