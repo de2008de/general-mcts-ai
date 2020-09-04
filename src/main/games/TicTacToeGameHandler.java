@@ -4,6 +4,7 @@ import main.games.tictactoe.TicTacToe;
 import main.utils.Utils;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class TicTacToeGameHandler implements GameHandler {
     private static Scanner scanner = new Scanner(System.in);
@@ -12,6 +13,7 @@ public class TicTacToeGameHandler implements GameHandler {
     private Player human = Player.PLAYER1;
     private Player ai = Player.PLAYER2;
     private Player currentPlayer;
+    private Game game;
 
 
     public static void main(String[] args) {
@@ -21,8 +23,6 @@ public class TicTacToeGameHandler implements GameHandler {
 
     @Override
     public void start() {
-        // Initialize a game
-        Game game = new TicTacToe();
         String goFirst = null;
         while (true) {
             System.out.println("Do you want to go first? y/n");
@@ -32,23 +32,33 @@ public class TicTacToeGameHandler implements GameHandler {
                 break;
             }
         }
-
+        // Initialize a game
+        Player previousPlayer = null;
         if (goFirst.equals("y")) {
             currentPlayer = human;
+            previousPlayer = ai;
         } else {
             currentPlayer = ai;
+            previousPlayer = human;
         }
+        game = new TicTacToe(previousPlayer);
 
         // Game starts from here
         while (game.getStatus() == Status.IN_PROGRESS) {
+            game.printState();
             if (currentPlayer == human) {
                 while (true) {
                     System.out.println("Please choose an action.");
-                    Utils.printArray(game.availableActions());
+                    Utils.printSet(game.availableActions());
                     String userInput = scanner.nextLine();
 
                     try {
                         int action = Integer.valueOf(userInput);
+                        if (!isActionValid(action)) {
+                            continue;
+                        }
+                        game = game.applyAction(action);
+                        break;
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid action number.");
                     }
@@ -56,16 +66,26 @@ public class TicTacToeGameHandler implements GameHandler {
             } else if (currentPlayer == ai) {
                 while (true) {
                     System.out.println("Please choose an action.");
-                    Utils.printArray(game.availableActions());
+                    Utils.printSet(game.availableActions());
                     String userInput = scanner.nextLine();
 
                     try {
                         int action = Integer.valueOf(userInput);
+                        if (!isActionValid(action)) {
+                            continue;
+                        }
+                        game = game.applyAction(action);
+                        break;
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid action number.");
                     }
                 }
             }
         }
+    }
+
+    private boolean isActionValid(int action) {
+        Set<Integer> availableActions = game.availableActions();
+        return availableActions.contains(action);
     }
 }

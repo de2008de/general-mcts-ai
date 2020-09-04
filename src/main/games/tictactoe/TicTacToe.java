@@ -7,7 +7,9 @@ import main.games.Status;
 import main.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TicTacToe implements Game {
 
@@ -28,11 +30,16 @@ public class TicTacToe implements Game {
     private Player lastTurnPlayer;
 
     public TicTacToe() {
-        this(new TicTacToeState());
+        this(new TicTacToeState(), Player.PLAYER1);
     }
 
-    public TicTacToe(State state) {
+    public TicTacToe(Player lastTurnPlayer) {
+        this(new TicTacToeState(), lastTurnPlayer);
+    }
+
+    public TicTacToe(State state, Player lastTurnPlayer) {
         this.state = state;
+        this.lastTurnPlayer = lastTurnPlayer;
         updateStatus();
     }
 
@@ -56,14 +63,14 @@ public class TicTacToe implements Game {
     }
 
     @Override
-    public int[] availableActions() {
-        List<Integer> actionsList = new ArrayList<>();
+    public Set<Integer> availableActions() {
+        Set<Integer> actionsSet = new HashSet<>();
         for (int i = 0; i < state.getStateLength(); i++) {
             if (state.getPositionAt(i) == Player.EMPTY) {
-                actionsList.add(i);
+                actionsSet.add(i);
             }
         }
-        return Utils.listToArray(actionsList);
+        return actionsSet;
     }
 
     @Override
@@ -72,7 +79,7 @@ public class TicTacToe implements Game {
         // Todo: validate the action
 
         copyState[action] = getNextTurnPlayer();
-        return new TicTacToe(new TicTacToeState(copyState));
+        return new TicTacToe(new TicTacToeState(copyState), getNextTurnPlayer());
     }
 
     @Override
@@ -110,6 +117,33 @@ public class TicTacToe implements Game {
 
     @Override
     public void printState() {
+        System.out.println("Player1: O");
+        System.out.println("Player2: X");
 
+        for (int i = 0; i < state.getStateLength(); i++) {
+            Player player = state.getPositionAt(i);
+            switch (player) {
+                case PLAYER1:
+                    System.out.print(" O ");
+                    break;
+                case PLAYER2:
+                    System.out.print(" X ");
+                    break;
+                case EMPTY:
+                    System.out.print("   ");
+                    break;
+            }
+
+            if (i % 3 != 2) {
+                System.out.print("|");
+            }
+
+            if (i % 3 == 2) {
+                System.out.println("");
+                if (i != 8) {
+                    System.out.println("---+---+---");
+                }
+            }
+        }
     }
 }

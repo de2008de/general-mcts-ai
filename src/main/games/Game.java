@@ -1,5 +1,7 @@
 package main.games;
 
+import java.util.Set;
+
 public interface Game {
     /**
      * Return the winner if game ends.
@@ -24,7 +26,7 @@ public interface Game {
      */
     Status getStatus();
 
-    int[] availableActions();
+    Set<Integer> availableActions();
 
     Game applyAction(int action);
 
