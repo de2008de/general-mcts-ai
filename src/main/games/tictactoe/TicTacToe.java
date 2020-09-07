@@ -101,9 +101,9 @@ public class TicTacToe implements Game {
 
     private void updateStatus() {
         // Check whether we have a winner
+        boolean isWin = true;
         for (int[] positions : winningPositions) {
             Player currentPosition = null;
-            boolean isWin = true;
             for (int position : positions) {
                 isWin = true;
                 Player nextPosition = state.getPositionAt(position);
@@ -119,7 +119,11 @@ public class TicTacToe implements Game {
                 return;
             }
         }
-        status = Status.IN_PROGRESS;
+        if (availableActions().isEmpty() && !isWin) {
+            status = Status.END_TIE;
+        } else {
+            status = Status.IN_PROGRESS;
+        }
     }
 
     @Override
