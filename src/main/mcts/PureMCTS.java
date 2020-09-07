@@ -71,6 +71,10 @@ public class PureMCTS implements MCTS<Integer> {
         return score;
     }
 
+    public void updateGame(Game game) {
+        this.game = game;
+    }
+
     public void setMaxStep(int maxStep) {
         this.maxStep = maxStep;
     }
