@@ -1,5 +1,9 @@
 package main.mcts;
 
-public interface MCTS {
-
+/**
+ *
+ * @param <T> Type of action
+ */
+public interface MCTS<T> {
+    T start();
 }

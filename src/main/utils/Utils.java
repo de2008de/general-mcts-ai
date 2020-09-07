@@ -13,6 +13,15 @@ public class Utils {
         return array;
     }
 
+    public static int[] setToArray(Set<Integer> set) {
+        int[] array = new int[set.size()];
+        int index = 0;
+        for (int i : set) {
+            array[index++] = i;
+        }
+        return array;
+    }
+
     public static void printArray(int[] array) {
         System.out.print("[");
         for (int i = 0; i < array.length; i++) {
