@@ -1,6 +1,9 @@
-package main.games;
+package main.games.tictactoe;
 
-import main.games.tictactoe.TicTacToe;
+import main.games.Game;
+import main.games.GameHandler;
+import main.games.Player;
+import main.games.Status;
 import main.mcts.MCTS;
 import main.mcts.PureMCTS;
 import main.utils.Utils;
@@ -16,11 +19,6 @@ public class TicTacToeGameHandler implements GameHandler {
     private Player currentPlayer;
     private Game game;
     private MCTS<Integer> mcts;
-
-    public static void main(String[] args) {
-        GameHandler gameHandler = new TicTacToeGameHandler();
-        gameHandler.start();
-    }
 
     @Override
     public void start() {
