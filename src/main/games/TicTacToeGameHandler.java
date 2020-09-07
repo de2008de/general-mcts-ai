@@ -1,6 +1,8 @@
 package main.games;
 
 import main.games.tictactoe.TicTacToe;
+import main.mcts.MCTS;
+import main.mcts.PureMCTS;
 import main.utils.Utils;
 
 import java.util.Scanner;
@@ -13,7 +15,7 @@ public class TicTacToeGameHandler implements GameHandler {
     private Player ai = Player.PLAYER2;
     private Player currentPlayer;
     private Game game;
-
+    private MCTS<Integer> mcts;
 
     public static void main(String[] args) {
         GameHandler gameHandler = new TicTacToeGameHandler();
@@ -41,10 +43,12 @@ public class TicTacToeGameHandler implements GameHandler {
             previousPlayer = human;
         }
         game = new TicTacToe(previousPlayer);
+        mcts = new PureMCTS(game);
 
         // Game starts from here
         while (game.getStatus() == Status.IN_PROGRESS) {
             game.printState();
+            currentPlayer = game.getNextTurnPlayer();
             if (currentPlayer == human) {
                 while (true) {
                     System.out.println("Please choose an action.");
@@ -65,24 +69,10 @@ public class TicTacToeGameHandler implements GameHandler {
                     }
                 }
             } else if (currentPlayer == ai) {
-                while (true) {
-                    System.out.println("Please choose an action.");
-                    Utils.printSet(game.availableActions());
-                    String userInput = scanner.nextLine();
-
-                    try {
-                        int action = Integer.valueOf(userInput);
-                        Game newGame = game.applyAction(action);
-                        if (newGame == null) {
-                            System.out.println("Please enter a valid action number.");
-                            continue;
-                        }
-                        game = newGame;
-                        break;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid action number.");
-                    }
-                }
+                System.out.println("AI is thinking...");
+                mcts.updateGame(game);
+                int action = mcts.start();
+                game = game.applyAction(action);
             }
         }
 
