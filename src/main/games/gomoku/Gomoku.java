@@ -8,6 +8,22 @@ import main.games.Status;
 import java.util.Set;
 
 public class Gomoku implements Game {
+    private State state;
+    private Player lastTurnPlayer;
+
+    public Gomoku() {
+        this(new GomokuState());
+    }
+
+    public Gomoku(State state) {
+        this(state, Player.PLAYER1);
+    }
+
+    public Gomoku(State state, Player lastTurnPlayer) {
+        this.state = state;
+        this.lastTurnPlayer = lastTurnPlayer;
+    }
+
     @Override
     public Player getWinner() {
         return null;
