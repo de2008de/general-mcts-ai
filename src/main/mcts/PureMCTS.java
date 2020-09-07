@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PureMCTS implements MCTS<Integer> {
     private Game game;
-    private int maxStep = 512;
+    private int maxStep = 2048;
 
     public PureMCTS(Game game) {
         this.game = game;
@@ -24,7 +24,7 @@ public class PureMCTS implements MCTS<Integer> {
         Map<Integer, Score> scoreMap = new HashMap<>();
         for (int action : actions) {
             Game newGame = game.applyAction(action);
-            Score score = randomPlay(newGame);
+            Score score = randomPlay(newGame, game.getNextTurnPlayer());
             scoreMap.put(action, score);
         }
         // Find the maximum score
@@ -45,7 +45,7 @@ public class PureMCTS implements MCTS<Integer> {
      * @param game
      * @return the score of given action
      */
-    private Score randomPlay(Game game) {
+    private Score randomPlay(Game game, Player player) {
         Score score = new Score();
         for (int i = 0; i < maxStep; i++) {
             Game randomGame = game;
@@ -59,7 +59,7 @@ public class PureMCTS implements MCTS<Integer> {
             // Calculate scores
             if (randomGame.getStatus() == Status.END) {
                 Player winner = randomGame.getWinner();
-                if (winner == game.getNextTurnPlayer()) {
+                if (winner == player) {
                     score.wins++;
                 } else {
                     score.losses++;
