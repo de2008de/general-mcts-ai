@@ -7,7 +7,7 @@ public class GomokuState implements State {
     private static int boardSize = 15 * 15;
     private static Player[] defaultState;
     private final Player[] state;
-    
+
     static {
         Player[] state = new Player[boardSize];
         for (int i = 0; i < state.length; i++) {
@@ -26,16 +26,16 @@ public class GomokuState implements State {
 
     @Override
     public Player getPositionAt(int index) {
-        return null;
+        return state[index];
     }
 
     @Override
     public Player[] getStateCopy() {
-        return new Player[0];
+        return state.clone();
     }
 
     @Override
     public int getStateLength() {
-        return 0;
+        return state.length;
     }
 }
