@@ -4,7 +4,9 @@ import main.games.Player;
 import main.games.State;
 
 public class GomokuState implements State {
-    private static int boardSize = 15 * 15;
+    private static int boardHeight = 15;
+    private static int boardWidth = 15;
+    private static int boardSize = boardHeight * boardWidth;
     private static Player[] defaultState;
     private final Player[] state;
 
@@ -37,5 +39,9 @@ public class GomokuState implements State {
     @Override
     public int getStateLength() {
         return state.length;
+    }
+
+    public static int getBoardWidth() {
+        return boardWidth;
     }
 }
